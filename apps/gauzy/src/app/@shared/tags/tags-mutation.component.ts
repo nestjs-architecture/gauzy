@@ -10,7 +10,7 @@ import { Tag } from '@gauzy/models';
 })
 export class TagsMutationComponent implements OnInit {
 	selectedUser: { userName: string }[] = [];
-	selectedColor: { color: string }[] = [];
+	selectedColor:  string[];
 	form: FormGroup;
 	tag: Tag;
 
@@ -19,21 +19,6 @@ export class TagsMutationComponent implements OnInit {
 		private tagsService: TagsService,
 		private fb: FormBuilder
 	) {}
-
-	// get name() {
-	// 	return this.form.get('name').value;
-	// }
-
-	// set name(value) {
-	// 	this.form.setValue(value);
-	// }
-
-	// get description() {
-	// 	return this.form.get('description').value;
-	// }
-	// set description(value) {
-	// 	this.form.setValue(value)
-	// }
 
 	ngOnInit() {
 		this.seedFakeData();
@@ -50,14 +35,15 @@ export class TagsMutationComponent implements OnInit {
 			})
 		);
 	}
-	async editTag(){
-		await this.tagsService.update(this.tag.id,
+	async editTag() {
+		await this.tagsService.update(
+			this.tag.id,
 			Object.assign({
 				name: this.form.value.name,
 				description: this.form.value.description,
 				color: this.form.value.color.color
 			})
-		)
+		);
 		this.closeDialog();
 	}
 
@@ -70,7 +56,7 @@ export class TagsMutationComponent implements OnInit {
 			this.form = this.fb.group({
 				name: this.tag.name,
 				color: this.tag.color,
-				description: this.tag.description
+				description: this.tag.description,
 			});
 		} else {
 			this.form = this.fb.group({
@@ -79,7 +65,7 @@ export class TagsMutationComponent implements OnInit {
 				color: ['']
 			});
 		}
-		
+		console.log(this.tag.color)
 	}
 
 	async seedFakeData() {

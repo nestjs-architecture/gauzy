@@ -42,18 +42,20 @@ export class TagsComponent implements OnInit, OnDestroy {
 		const dialog = this.dialogService.open(TagsMutationComponent, {
 			context: {}
 		});
-
 		await dialog.onClose.pipe(first()).toPromise();
 		this.selectedTag = null;
+		this.disableButton = false;
 		this.loadSettings();
 	}
 
 	async selectTag(data) {
 		if (data.isSelected) {
-			this.tag = data.data;
+			this.tag = data.data;	
 		}
-		this.disableButton = false;
-		console.log(data);
+		else{
+			this.disableButton = false;
+		}
+		
 	}
 	async delete() {
 		const result = await this.dialogService
@@ -65,6 +67,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 			await this.tagsService.delete(this.tag.id);
 			this.loadSettings();
 		}
+		this.disableButton = false;
 	}
 	async edit() {
 		const dialog = this.dialogService.open(TagsMutationComponent, {
@@ -73,8 +76,8 @@ export class TagsComponent implements OnInit, OnDestroy {
 			}
 		});
 
+		
 		await dialog.onClose.pipe(first()).toPromise();
-		// this.selectedTag = null;
 		this.disableButton = false;
 		this.loadSettings();
 	}
